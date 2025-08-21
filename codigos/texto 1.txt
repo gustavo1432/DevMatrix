@@ -1,0 +1,29 @@
+#include <WiFi.h>
+
+// Definir nome da rede e senha.
+// Nome da rede.
+cost char* ssid = "teste_01"
+
+// Senha
+cost char* password = "123456789"
+
+void setup() 
+{
+
+  Serial.begin(115200);
+  // Iniciar o modo AP.
+  WiFi.sofAP(ssid, password)
+
+
+  // Exibe IP.
+IPAdress IP = WiFi.softAPIP();
+Serial.print("Rede Wifi criada. IP do AP: ");
+Serial.print(IP);
+
+}
+
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
