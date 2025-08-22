@@ -374,41 +374,6 @@
             <div class="card">🔥 Pedro lançou um game 2D no navegador!</div>
           </div>`;
       }
-
-      // PERFIL
-      function showProfile() {
-        document.getElementById("content-area").innerHTML = `
-          <h2>👤 Meu Perfil</h2>
-          <div class="cards-container">
-            <div class="card big-card" style="background: #5e5cff; color: #fff;">
-              <p>🧑 <strong>Nome:</strong> Gustavo</p>
-              <p>💬 <strong>Bio:</strong> Estudante de Desenvolvimento de Sistemas na ETEC 🚀</p>
-            </div>
-
-            <div class="card big-card">
-              <div class="circle" style="--percent:${(JSON.parse(localStorage.getItem("projetos")) || []).length * 20}; --color:#ff4fd8;">
-                <span>${(JSON.parse(localStorage.getItem("projetos")) || []).length}</span>
-              </div>
-              <p>📂 Projetos Publicados</p>
-            </div>
-
-            <div class="card big-card">
-              <div class="circle" style="--percent:40; --color:#00c4ff;">
-                <span>40</span>
-              </div>
-              <p>👍 Curtidas Recebidas</p>
-            </div>
-
-            <div class="card big-card">
-              <div class="circle" style="--percent:60; --color:#ffb84d;">
-                <span>60</span>
-              </div>
-              <p>⭐ Projetos Favoritos</p>
-            </div>
-          </div>
-        `;
-      }
-
       // EDITOR
       function showEditor() {
         document.getElementById("content-area").innerHTML = `
@@ -464,4 +429,3 @@
     </script>
   </body>
 </html>
-
