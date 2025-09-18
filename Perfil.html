@@ -136,117 +136,62 @@
         <span>DevMatrix</span>
       </div>
 
-      <!-- Ícone de usuário + dropdown -->
-      <div class="profile-container">
-        <img
-          src="https://github.com/gustavo1432/portafolio-logo/blob/main/do-utilizador.png?raw=true"
-          alt="Usuário"
-          class="profile-icon"
-          onclick="toggleMenu()"
-        />
-        <div class="menu-dropdown" id="dropdownMenu">
-          <button onclick="salvarProjeto()">💾 Salvar</button>
-          <button onclick="listarProjetos()">📂 Listar</button>
-          <button onclick="location.href='publish.html'">🚀 Publicar</button>
-        </div>
-      </div>
-    </header>
+      <!-- Imagem do usuário -->
+<div style="display:flex; align-items:center; gap:10px; position:relative;">
+  <img src="https://github.com/gustavo1432/portafolio-logo/blob/main/do-utilizador.png?raw=true" 
+       alt="Usuário"
+       style="width:30px; height:30px; border-radius:50%; border:2px solid #ffffff; cursor:pointer;"
+       onmouseover="this.style.borderColor='#2d008f'"
+       onmouseout="this.style.borderColor='#ffffff'"
+       onclick="document.getElementById('userMenu').classList.toggle('show')">
+       
+  <div id="userMenu" class="menu-dropdown">
+    <button onclick="location.href='login.html'">🔑 Login</button>
+    <button onclick="location.href='cadastro.html'">📝 Cadastro</button>
+    <button onclick="alert('Você saiu da conta!')">🚪 Sair</button>
+  </div>
+</div>
 
-    <main>
-      <!-- Seção de Perfil -->
-      <section class="profile-section">
-        <h2>Perfil</h2>
-        <div class="profile-cards">
-          <div class="card">
-            <h3>Projetos Publicados</h3>
-            <p>0</p>
-          </div>
-          <div class="card">
-            <h3>Curtidas Recebidas</h3>
-            <p>0</p>
-          </div>
-          <div class="card">
-            <h3>Projetos Favoritos</h3>
-            <p>0</p>
-          </div>
-          <div class="card">
-            <h3>Seguidores</h3>
-            <p>0</p>
-          </div>
-          <div class="card">
-            <h3>Comentários</h3>
-            <p>0</p>
-          </div>
-          <div class="card">
-            <h3>Colaborações</h3>
-            <p>0</p>
-          </div>
-        </div>
-      </section>
+<style>
+  .menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 8px;
+    min-width: 140px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+    z-index: 10;
+  }
+  .menu-dropdown button {
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+  .menu-dropdown button:hover {
+    background-color: #333;
+  }
+  .menu-dropdown.show {
+    display: block;
+  }
+</style>
 
-      <!-- Gráfico -->
-      <section class="chart-section">
-        <h2>Desempenho dos Projetos</h2>
-        <canvas id="myChart"></canvas>
-      </section>
-    </main>
-
-    <script>
-      // Dropdown menu
-      function toggleMenu() {
-        const menu = document.getElementById("dropdownMenu");
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+<script>
+  // Fecha se clicar fora
+  window.onclick = function(event) {
+    if (!event.target.closest('.menu-dropdown') && !event.target.matches('img[alt="Usuário"]')) {
+      let dropdown = document.getElementById("userMenu");
+      if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
       }
-
-      // Gráfico
-      const ctx = document.getElementById("myChart").getContext("2d");
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio"],
-          datasets: [
-            {
-              label: "Curtidas",
-              data: [0, 0, 0, 0, 0],
-              backgroundColor: "rgba(0, 255, 204, 0.6)",
-              borderColor: "rgba(0, 255, 204, 1)",
-              borderWidth: 1,
-            },
-            {
-              label: "Favoritos",
-              data: [0, 0, 0, 0, 0],
-              backgroundColor: "rgba(0, 153, 255, 0.6)",
-              borderColor: "rgba(0, 153, 255, 1)",
-              borderWidth: 1,
-            },
-            {
-              type: "line",
-              label: "Crescimento",
-              data: [0, 0, 0, 0, 0],
-              borderColor: "#ffcc00",
-              borderWidth: 2,
-              fill: false,
-              tension: 0.3,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: {
-            x: { grid: { color: "#333" } },
-            y: { beginAtZero: true, grid: { color: "#333" } },
-          },
-          plugins: { legend: { labels: { color: "white" } } },
-        },
-      });
-
-      // Funções simuladas
-      function salvarProjeto() {
-        alert("Projeto salvo!");
-      }
-      function listarProjetos() {
-        alert("Listando projetos...");
-      }
-    </script>
-  </body>
-</html>
+    }
+  }
+</script>
