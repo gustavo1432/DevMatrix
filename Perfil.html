@@ -25,6 +25,7 @@
         padding: 15px;
         background-color: #1f1f1f;
         border-bottom: 2px solid #333;
+        position: relative;
       }
       header div {
         display: flex;
@@ -41,12 +42,45 @@
         font-size: 1.2rem;
         color: white;
       }
-      .sidebar-btn {
+      .profile-container {
+        position: relative;
+      }
+      .profile-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        cursor: pointer;
+        transition: border-color 0.3s;
+      }
+      .profile-icon:hover {
+        border-color: #2d008f;
+      }
+      .menu-dropdown {
+        display: none;
+        position: absolute;
+        top: 45px;
+        right: 0;
+        background: #1f1f1f;
+        border: 1px solid #333;
+        border-radius: 8px;
+        flex-direction: column;
+        min-width: 150px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+        z-index: 100;
+      }
+      .menu-dropdown button {
         background: none;
         border: none;
-        font-size: 24px;
         color: white;
+        text-align: left;
+        padding: 10px 15px;
+        font-size: 0.95rem;
         cursor: pointer;
+        transition: background 0.3s;
+      }
+      .menu-dropdown button:hover {
+        background: #2d008f;
       }
       main {
         padding: 20px;
@@ -93,25 +127,31 @@
   </head>
   <body>
     <header>
-  <!-- Logo e nome -->
-  <div onclick="location.href='index.html'">
-    <img src="https://github.com/gustavo1432/portafolio-logo/blob/main/portfolio.png?raw=true" alt="Logo" />
-    <span>DevMatrix</span>
-  </div>
-
-  <!-- Imagem do usuário -->
-  <div style="display:flex; align-items:center; gap:10px;">
-   <img src="https://github.com/gustavo1432/portafolio-logo/blob/main/do-utilizador.png?raw=true" alt="Usuário"
-     style="width:30px; height:30px; border-radius:50%; border:2px solid #ffffff; cursor:pointer;"
-     onmouseover="this.style.borderColor='#2d008f'"
-     onmouseout="this.style.borderColor='#ffffff'">
-    <div class="menu-dropdown">
-        <button onclick="salvarProjeto()">💾 Salvar</button>
-        <button onclick="listarProjetos()">📂 Listar</button>
-        <button onclick="location.href='publish.html'">🚀 Publicar</button>
+      <!-- Logo e nome -->
+      <div onclick="location.href='index.html'">
+        <img
+          src="https://github.com/gustavo1432/portafolio-logo/blob/main/portfolio.png?raw=true"
+          alt="Logo"
+        />
+        <span>DevMatrix</span>
       </div>
-  </div>
-</header>
+
+      <!-- Ícone de usuário + dropdown -->
+      <div class="profile-container">
+        <img
+          src="https://github.com/gustavo1432/portafolio-logo/blob/main/do-utilizador.png?raw=true"
+          alt="Usuário"
+          class="profile-icon"
+          onclick="toggleMenu()"
+        />
+        <div class="menu-dropdown" id="dropdownMenu">
+          <button onclick="salvarProjeto()">💾 Salvar</button>
+          <button onclick="listarProjetos()">📂 Listar</button>
+          <button onclick="location.href='publish.html'">🚀 Publicar</button>
+        </div>
+      </div>
+    </header>
+
     <main>
       <!-- Seção de Perfil -->
       <section class="profile-section">
@@ -143,13 +183,22 @@
           </div>
         </div>
       </section>
+
       <!-- Gráfico -->
       <section class="chart-section">
         <h2>Desempenho dos Projetos</h2>
         <canvas id="myChart"></canvas>
       </section>
     </main>
+
     <script>
+      // Dropdown menu
+      function toggleMenu() {
+        const menu = document.getElementById("dropdownMenu");
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+      }
+
+      // Gráfico
       const ctx = document.getElementById("myChart").getContext("2d");
       new Chart(ctx, {
         type: "bar",
@@ -190,7 +239,14 @@
           plugins: { legend: { labels: { color: "white" } } },
         },
       });
+
+      // Funções simuladas
+      function salvarProjeto() {
+        alert("Projeto salvo!");
+      }
+      function listarProjetos() {
+        alert("Listando projetos...");
+      }
     </script>
   </body>
 </html>
-
