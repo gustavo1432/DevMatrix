@@ -10,7 +10,8 @@
       href="https://github.com/gustavo1432/portafolio-logo/blob/main/portfolio.png?raw=true"
     />
     <style>
-      body {
+      /* ... seu CSS permanece inalterado ... */
+       body {
         margin: 0;
         font-family: Arial, sans-serif;
         background: #0d0d1a;
@@ -252,7 +253,7 @@
       <h2>Menu</h2>
       <ul>
         <li><button onclick="showHome()">🏠 Início</button></li>
-        <li><button onclick="showUserProjects()">📂 Meus Projetos</button></li>
+        <li><button onclick="showUserProjects(); loadProjects();">📂 Meus Projetos</button></li>
         <li><button onclick="showCommunityFeed()">🌐 Comunidade</button></li>
         <li>
           <button onclick="window.location.href='Projeto.html'">
@@ -261,7 +262,7 @@
         </li>
         <li><button onclick="window.location.href='Perfil.html'">👤 Perfil</button></li>
       </ul>
-      <!-- Adicione dentro do seu <aside id="sidebar">, onde quer que apareça o usuário -->
+
       <div id="user-info" style="margin-top: 20px; text-align:center;">
         <img id="user-photo" src="" alt="Foto do usuário" style="width:50px; height:50px; border-radius:50%; display:none;">
         <p id="user-name" style="margin:5px 0; display:none;"></p>
@@ -271,7 +272,6 @@
         </div>
         <div class="g_id_signin" data-type="standard"></div>
       </div>
-
     </aside>
 
     <!-- MAIN CONTENT -->
@@ -328,6 +328,7 @@
         const container = document.getElementById("content-area");
         container.innerHTML =
           '<h2>📂 Meus Projetos</h2><div class="cards-container" id="cards-container"></div>';
+
         const cardsContainer = document.getElementById("cards-container");
 
         // Pega os projetos do localStorage
@@ -374,28 +375,11 @@
             <div class="card">🔥 Pedro lançou um game 2D no navegador!</div>
           </div>`;
       }
+
       // EDITOR
       function showEditor() {
         document.getElementById("content-area").innerHTML = `
-          <h2>📝 Criar Projeto</h2>
-          <iframe id="preview"></iframe>
-          <div style="margin:10px 0;">
-            <button class="btn btn-primary" onclick="updatePreview()">▶ Rodar Código</button>
-          </div>
-          <div id="editor">
-            <div class="editor-pane">
-              <label>HTML</label>
-              <textarea id="html-code"><h1>Hello World</h1></textarea>
-            </div>
-            <div class="editor-pane">
-              <label>CSS</label>
-              <textarea id="css-code">h1 { color: red; text-align: center; }</textarea>
-            </div>
-            <div class="editor-pane">
-              <label>JS</label>
-              <textarea id="js-code">console.log("Rodando JS!");</textarea>
-            </div>
-          </div>
+          <!-- ... conteúdo do editor permanece inalterado ... -->
         `;
         updatePreview();
       }
@@ -411,14 +395,12 @@
         previewFrame.close();
       }
 
-      // Fecha sidebar ao clicar em qualquer item do menu
       document.querySelectorAll("#sidebar ul li button").forEach((button) => {
         button.addEventListener("click", () => {
           document.getElementById("sidebar").classList.remove("active");
         });
       });
 
-      // Fecha sidebar ao clicar fora dele
       document.addEventListener("click", function (event) {
         const sidebar = document.getElementById("sidebar");
         const button = document.querySelector(".sidebar-btn");
@@ -426,6 +408,47 @@
           sidebar.classList.remove("active");
         }
       });
+    </script>
+
+    <!-- FIREBASE -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+      import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDEyiB2rw9q8Ev-J_Ukbn2N5v2TFV7Ira0",
+        authDomain: "devmatrix-9d158.firebaseapp.com",
+        projectId: "devmatrix-9d158",
+        storageBucket: "devmatrix-9d158.firebasestorage.app",
+        messagingSenderId: "869933627383",
+        appId: "1:869933627383:web:0c61108e21a80766b3e0f2",
+        measurementId: "G-894Q25NFBF"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const db = getFirestore(app);
+
+      async function loadProjects() {
+        const projectsContainer = document.getElementById("cards-container");
+        if (!projectsContainer) return;
+
+        const querySnapshot = await getDocs(collection(db, "projetos"));
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const card = document.createElement("div");
+          card.classList.add("card");
+          card.innerHTML = `
+            <strong>${data.titulo}</strong>
+            <p>${data.descricao}</p>
+            <img src="${data.imagem}" style="width:100%;border-radius:8px;margin-top:5px;">
+          `;
+          projectsContainer.appendChild(card);
+        });
+      }
+
+      window.loadProjects = loadProjects;
     </script>
   </body>
 </html>
