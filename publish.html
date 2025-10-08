@@ -361,8 +361,48 @@
         alert("✅ Projeto publicado com sucesso!");
     });
 </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+      import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDEyiB2rw9q8Ev-J_Ukbn2N5v2TFV7Ira0",
+        authDomain: "devmatrix-9d158.firebaseapp.com",
+        projectId: "devmatrix-9d158",
+        storageBucket: "devmatrix-9d158.firebasestorage.app",
+        messagingSenderId: "869933627383",
+        appId: "1:869933627383:web:0c61108e21a80766b3e0f2",
+        measurementId: "G-894Q25NFBF"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const db = getFirestore(app);
+
+      async function loadProjects() {
+        const projectsContainer = document.getElementById("cards-container");
+        if (!projectsContainer) return;
+
+        const querySnapshot = await getDocs(collection(db, "projetos"));
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const card = document.createElement("div");
+          card.classList.add("card");
+          card.innerHTML = `
+            <strong>${data.titulo}</strong>
+            <p>${data.descricao}</p>
+            <img src="${data.imagem}" style="width:100%;border-radius:8px;margin-top:5px;">
+          `;
+          projectsContainer.appendChild(card);
+        });
+      }
+
+      window.loadProjects = loadProjects;
+    </script>
 
 
 </body>
+
 
 </html>
